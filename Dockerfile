@@ -122,3 +122,15 @@ RUN if [ "$TOMCAT_EXTRAS" = false ]; then \
 
 # Delete resources after installation
 RUN rm -rf /tmp/resources
+
+RUN apt-get -y update
+RUN apt-get -y install ca-certificates rpl pwgen postgresql postgresql-contrib postgis postgresql-9.6-postgis-2.3 netcat
+
+ADD setup.sh /setup.sh
+RUN chmod 0755 /setup.sh
+RUN /setup.sh
+
+ADD start-postgis.sh /start-postgis.sh
+RUN chmod 0755 /start-postgis.sh
+
+CMD /start-postgis.sh

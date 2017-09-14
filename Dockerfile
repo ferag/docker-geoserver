@@ -123,6 +123,9 @@ RUN if [ "$TOMCAT_EXTRAS" = false ]; then \
 # Delete resources after installation
 RUN rm -rf /tmp/resources
 
+ENV USERNAME admin
+ENV PASS admin
+
 RUN apt-get -y update
 RUN apt-get -y install ca-certificates rpl pwgen postgresql postgresql-contrib postgis postgresql-9.6-postgis-2.3 netcat
 
@@ -134,3 +137,6 @@ ADD start-postgis.sh /start-postgis.sh
 RUN chmod 0755 /start-postgis.sh
 
 CMD /start-postgis.sh
+
+ENV DATA_DIR /opt/geoserver/data_dir
+RUN /usr/local/tomcat/bin/catalina.sh start 

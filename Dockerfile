@@ -25,6 +25,10 @@ RUN mkdir -p $GEOSERVER_DATA_DIR
 ENV JAVA_VERSION=
 ENV JAVA_DEBIAN_VERSION=
 
+#Temporal, for default user/pass
+CMD USERNAME='admin'
+CMD PASS='admin'
+
 # Set JAVA_HOME to /usr/lib/jvm/default-java and link it to OpenJDK installation
 RUN ln -s /usr/lib/jvm/java-8-openjdk-amd64 /usr/lib/jvm/default-java
 ENV JAVA_HOME /usr/lib/jvm/default-java
@@ -123,9 +127,6 @@ RUN if [ "$TOMCAT_EXTRAS" = false ]; then \
 # Delete resources after installation
 RUN rm -rf /tmp/resources
 
-ENV USERNAME admin
-ENV PASS admin
-
 RUN apt-get -y update
 RUN apt-get -y install ca-certificates rpl pwgen postgresql postgresql-contrib postgis postgresql-9.6-postgis-2.3 netcat
 
@@ -139,4 +140,4 @@ RUN chmod 0755 /start-postgis.sh
 CMD /start-postgis.sh
 
 ENV DATA_DIR /opt/geoserver/data_dir
-RUN /usr/local/tomcat/bin/catalina.sh start 
+CMD /usr/local/tomcat/bin/catalina.sh run
